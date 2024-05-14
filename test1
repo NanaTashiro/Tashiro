@@ -1,0 +1,19 @@
+import requests
+from bs4 import BeautifulSoup
+import pandas as pd
+
+# URL of the page
+url = 'https://electionresults.govt.nz/elections2020/statistics/candidate-votes-by-voting-place-1.html'
+
+# Fetch the page
+response = requests.get(url)
+soup = BeautifulSoup(response.content, 'html.parser')
+
+# Find the table by ID
+table_html = soup.find('table', {'id': 'votes-by-voting-place-summary'})
+
+# Convert the HTML table to a DataFrame
+df = pd.read_html(str(table_html))[0]  # Convert to string because read_html expects a string or a file-like object
+
+print(df.head())
+
